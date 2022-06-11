@@ -27,20 +27,15 @@ const cartSlice = createSlice({
 		},
 		removeItemCount(state, action) {
 			const findItem = state.items.find((item) => action.payload.id === item.id);
-			if (findItem.count !== 1) {
-				state.cartCount -= 1;
-				findItem.count--;
+			findItem.count--;
+			state.cartCount -= 1;
+			if (findItem.count <= 1) {
+				state.items = state.items.filter((item) => item.id !== findItem.id);
 			}
 		},
-		/* getSumOfCart(state, action) {
-			const currency = action.payload;
-			if (state.items.length !== 0) {
-				console.log(state.items.filter((item) => item.currency.symbol === currency.symbol));
-			}
-		}, */
 	},
 });
 
-export const { addToCart, addItemCount, removeItemCount, getSumOfCart } = cartSlice.actions;
+export const { addToCart, addItemCount, removeItemCount } = cartSlice.actions;
 
 export default cartSlice.reducer;
